@@ -3,7 +3,7 @@
 
 int main() {
 	SetConsoleOutputCP(65001);
-	char std[] = "あ";
+	char std[] = "アイスクリーム";
 	printf("%s",std);
 	return 0;
 }
