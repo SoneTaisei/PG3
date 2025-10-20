@@ -20,7 +20,7 @@ int main() {
 	int timePay = 1226;
 	// 再帰した時の最初の金額
 	int recorringPay = 100;
-	printf("通常の金額 : %d\n", timePay * workTime);
+	printf("通常の金額 : 　　　%d\n", timePay * workTime);
 	printf("再帰した時の金額 : %d\n", CalculateStandardPay(timePay, recorringPay, workTime));
 	return 0;
 }
