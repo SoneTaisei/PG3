@@ -26,7 +26,7 @@ int main () {
 		"k024g0093@g.neec.ac.jp","k024g0024@g.neec.ac.jp",
 	};
 
-	// 修正箇所：複雑な切り出しをやめて、単純な辞書順比較に変更
+	// 単純な辞書順比較
 	std::sort (nameList.begin (), nameList.end (), [](const std::string &a, const std::string &b) {
 		return a < b;
 			   });
