@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Command.h"
-class InputHandle {
+class InputHandler {
 public:
 	ICommand *HandleInput ();
 

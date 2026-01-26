@@ -1,19 +1,19 @@
-﻿#include "InputHandle.h"
+﻿#include "InputHandler.h"
 #include "Novice.h"
 
-ICommand *InputHandle::HandleInput () {
+ICommand *InputHandler::HandleInput () {
 	if (Novice::CheckHitKey (DIK_D)) {
 		return pressKeyD_;
 	}
 	return nullptr;
 }
 
-void InputHandle::AssignMoveLeftCommand2PressKeyA () {
+void InputHandler::AssignMoveLeftCommand2PressKeyA () {
 	ICommand *command = new MoveLeftCommand ();
 	this->pressKeyA_ = command;
 }
 
-void InputHandle::AssignMoveRightCommand2PressKeyD () {
+void InputHandler::AssignMoveRightCommand2PressKeyD () {
 	ICommand *command = new MoveRightCommand ();
 	this->pressKeyD_ = command;
 }

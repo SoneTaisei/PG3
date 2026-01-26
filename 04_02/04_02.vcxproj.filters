@@ -26,6 +26,9 @@
     <Filter Include="KamataEngine\Scene\TitleScene">
       <UniqueIdentifier>{4891d176-112e-4c1a-b75c-9805aa2d7b23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="KamataEngine\Command">
+      <UniqueIdentifier>{721b368d-1339-4aa6-b86c-d411152d92aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -43,6 +46,15 @@
     </ClCompile>
     <ClCompile Include="ClearScene.cpp">
       <Filter>KamataEngine\Scene\ClearScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>KamataEngine\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>KamataEngine\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>KamataEngine\Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +153,18 @@
     </ClInclude>
     <ClInclude Include="ClearScene.h">
       <Filter>KamataEngine\Scene\ClearScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>KamataEngine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>KamataEngine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>KamataEngine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>KamataEngine\Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
