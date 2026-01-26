@@ -26,15 +26,14 @@ int main () {
 		"k024g0093@g.neec.ac.jp","k024g0024@g.neec.ac.jp",
 	};
 
-	// 単純な辞書順比較
-	std::sort (nameList.begin (), nameList.end (), [](const std::string &a, const std::string &b) {
-		return a < b;
-			   });
+	// 辞書順にソートする
+	// (std::stringは比較関数を省略すると、デフォルトの<演算子(辞書順)で比較されるため)
+	std::sort (nameList.begin (), nameList.end ());
 
 	// 結果の表示
 	std::cout << "--- 学籍番号順に表示する ---" << std::endl;
-	for (const std::string &newNameList : nameList) {
-		std::cout << newNameList << std::endl;
+	for (const std::string &name : nameList) {
+		std::cout << name << std::endl;
 	}
 
 	return 0;
