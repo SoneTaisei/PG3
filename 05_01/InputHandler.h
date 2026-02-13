@@ -3,12 +3,13 @@
 class InputHandler {
 public:
 	ICommand *HandlerInput ();
+	~InputHandler ();
 
 	void AssignMoveLeftCommand2PressKeyA ();
 	void AssignMoveRightCommand2PressKeyD ();
 
 private:
-	ICommand *pressKeyD_;
-	ICommand *pressKeyA_;
+	ICommand *pressKeyD_ = nullptr;
+	ICommand *pressKeyA_ = nullptr;
 };
 

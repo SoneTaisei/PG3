@@ -4,7 +4,7 @@
 ICommand::~ICommand () {
 }
 
-void MoveRightCommand::Exec(Player&player){
+void MoveRightCommand::Exec (Player &player) {
 	player.MoveRight ();
 }
 

@@ -11,7 +11,7 @@ void Player::Update () {
 }
 
 void Player::Draw () {
-	Novice::DrawBox (int(pos_.x), int (pos_.y), 50,50, 0.0f, WHITE, kFillModeSolid);
+	Novice::DrawBox (int (pos_.x), int (pos_.y), 50, 50, 0.0f, WHITE, kFillModeSolid);
 }
 
 void Player::MoveRight () {
