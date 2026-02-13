@@ -24,9 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include="03_01.vcxproj" />
-    <None Include="03_01.vcxproj.filters" />
-    <None Include="03_01.vcxproj.user" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h">
