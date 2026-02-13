@@ -5,11 +5,11 @@ class Player;
 class ICommand {
 public:
 	virtual ~ICommand ();
-	virtual void Exec(Player &player) = 0;
+	virtual void Exec (Player &player) = 0;
 
 };
 
-class MoveRightCommand :public ICommand{
+class MoveRightCommand :public ICommand {
 public:
 	void Exec (Player &player)override;
 };
