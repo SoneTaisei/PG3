@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <Windows.h>
-#include"Enemy.h"
+#include "Enemy.h"
 
-int main() {
-	SetConsoleOutputCP(65001);
+int main () {
+	SetConsoleOutputCP (65001);
 	// 敵の生成
 	Enemy enemy;
 
-	enemy.Initialize();
+	enemy.Initialize ();
 
-	for(int i = 0; i < 3; ++i) {
-		enemy.Update();
+	for (int i = 0; i < 3; ++i) {
+		enemy.Update ();
 	}
 
 	return 0;
