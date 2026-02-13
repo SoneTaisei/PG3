@@ -1,92 +1,86 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <windows.h> // SetConsoleOutputCPを使うために必要
+#include <cmath>
+#include <memory>  // std::unique_ptr を使うための必須ヘッダー
+#include <Windows.h>
 
-// 【条件1】現実世界（ゲーム会社）の関係をクラスで実装
-// 基底クラス：ゲーム会社
-class GameCompany {
-protected:
-	std::string companyName;
+namespace Geometry {
 
-public:
-	GameCompany (std::string name) : companyName (name) {}
+	// --- 【設計図：抽象クラス】 ---
+	// 全ての図形が守るべき「規約（インターフェース）」を定義します
+	class IShape {
+	public:
+		// 「面積を返すこと」という命令。= 0 は「実装は子クラスに任せる」という意味
+		virtual double Size () const = 0;
+		// 「情報を表示すること」という命令
+		virtual void Draw () const = 0;
+		// 賢いポインタを使うために、デストラクタも仮想化して安全に消せるようにする
+		virtual ~IShape () {}
+	};
 
-	// 仮想関数：開発する
-	// 「ゲームを作る」という命令は同じでも、会社によって作るものが違う
-	virtual void Develop () const = 0;
+	// --- 【実装：円クラス】 ---
+	class Circle : public IShape {
+	private:
+		double radius;
+	public:
+		Circle (double r) : radius (r) {}
 
-	// 会社名を表示
-	void ShowName () const {
-		std::cout << "【内定先: " << companyName << "】" << std::endl;
-	}
+		// 円のルールに沿って面積を計算
+		double Size () const override {
+			return 3.141592653589793 * radius * radius;
+		}
 
-	virtual ~GameCompany () {}
-};
+		void Draw () const override {
+			std::cout << "図形: 円 / 半径: " << radius << std::endl;
+		}
+	};
 
-// 派生クラス：任天堂
-class Nintendo : public GameCompany {
-public:
-	Nintendo () : GameCompany ("任天堂") {}
+	// --- 【実装：長方形クラス】 ---
+	class Rectangle : public IShape {
+	private:
+		double width, height;
+	public:
+		Rectangle (double w, double h) : width (w), height (h) {}
 
-	void Develop () const override {
-		std::cout << "　業務：マリオやゼルダなどの、誰もが楽しめるゲームを作ります。" << std::endl;
-	}
-};
+		// 長方形のルールに沿って面積を計算
+		double Size () const override {
+			return width * height;
+		}
 
-// 派生クラス：セガ
-class Sega : public GameCompany {
-public:
-	Sega () : GameCompany ("セガ") {}
+		void Draw () const override {
+			std::cout << "図形: 長方形 / 幅: " << width << ", 高さ: " << height << std::endl;
+		}
+	};
 
-	void Develop () const override {
-		std::cout << "　業務：ソニックや龍が如くなど、エッジの効いたゲームを作ります。" << std::endl;
-	}
-};
-
-// 派生クラス：カプコン
-class Capcom : public GameCompany {
-public:
-	Capcom () : GameCompany ("カプコン") {}
-
-	void Develop () const override {
-		std::cout << "　業務：モンスターハンターやバイオハザードなど、世界的アクションゲームを作ります。" << std::endl;
-	}
-};
-
-// 追加の派生クラス：スクウェア・エニックス
-class SquareEnix : public GameCompany {
-public:
-	SquareEnix () : GameCompany ("スクウェア・エニックス") {}
-
-	void Develop () const override {
-		std::cout << "　業務：ファイナルファンタジーやドラゴンクエストなど、壮大なRPGを作ります。" << std::endl;
-	}
-};
+} // namespace Geometry
 
 int main () {
-	// コンソールの文字コードをUTF-8に設定（文字化け防止）
+	// コンソールの文字化け対策（UTF-8設定）
 	SetConsoleOutputCP (65001);
 
-	// 【条件2】インスタンスを生成
-	Nintendo nintendo;
-	Sega sega;
-	Capcom capcom;
-	SquareEnix sqex;
+	// --- 【管理：スマートポインタの動的配列】 ---
+	// Geometry::IShape を指す「賢いポインタ」を格納する箱（vector）を用意
+	// これにより、Circle も Rectangle も混ぜて管理できる（これがポリモーフィズム！）
+	std::vector<std::unique_ptr<Geometry::IShape>> shapes;
 
-	// ポリモーフィズム：これら全ての会社を「ゲーム会社」という一つの型で扱える
-	std::vector<GameCompany *> myCareerPath = { &nintendo, &sega, &capcom, &sqex };
+	// インスタンスを生成してリストに追加
+	// std::make_unique を使うことで、安全にメモリを確保します
+	shapes.push_back (std::make_unique<Geometry::Circle> (5.0));
+	shapes.push_back (std::make_unique<Geometry::Rectangle> (4.0, 6.0));
 
-	std::cout << "--- ゲーム業界就職シミュレーション ---" << std::endl;
+	std::cout << "--- 図形計算システム (Smart Pointer版) ---" << std::endl;
 
-	for (GameCompany *company : myCareerPath) {
-		company->ShowName ();
-
-		// ポリモーフィズム実行
-		company->Develop ();
-
-		std::cout << "--------------------------------------" << std::endl;
+	// --- 【実行：多態性の活用】 ---
+	// shape が実際には「円」なのか「長方形」なのかを意識せず、
+	// ただ「図形」として Size() や Draw() を呼び出せば、適切な方が実行されます
+	for (const auto &shape : shapes) {
+		shape->Draw ();
+		std::cout << "面積: " << shape->Size () << std::endl;
+		std::cout << "------------------------" << std::endl;
 	}
 
+	// 最後に delete ループを書く必要はありません。
+	// main関数が終わると shapes が消え、中身の unique_ptr たちが勝手にメモリを掃除してくれます。
 	return 0;
 }
