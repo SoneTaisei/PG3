@@ -1,26 +1,37 @@
 #include <stdio.h>
 #include <Windows.h>
 
-int CalculateStandardPay(int timePay, int recorringPay, int workTime) {
-	if(workTime <= 0) {
-		return 0;
-	} else {
-		workTime--;
-		return recorringPay + CalculateStandardPay(timePay, recorringPay * 2 - 50,workTime);
-	}
+// 再帰的な賃金計算（n時間目の単価ではなく、累計を出す）
+int CalculateTotalRecursivePay (int currentPay, int remainingHours) {
+    if (remainingHours <= 1) {
+        return currentPay;
+    }
+    // 次の1時間からは「前の1時間 * 2 - 50」
+    int nextPay = currentPay * 2 - 50;
+    return currentPay + CalculateTotalRecursivePay (nextPay, remainingHours - 1);
 }
 
-int main() {
-	SetConsoleOutputCP(65001);
-	// 働く時間
-	int workTime = 0;
-	printf("何時間働きますか？↓\n");
-	scanf_s("%d", &workTime);
-	// 通常の金額
-	int timePay = 1226;
-	// 再帰した時の最初の金額
-	int recorringPay = 100;
-	printf("通常の金額 : 　　　%d\n", timePay * workTime);
-	printf("再帰した時の金額 : %d\n", CalculateStandardPay(timePay, recorringPay, workTime));
-	return 0;
+int main () {
+    SetConsoleOutputCP (65001);
+
+    int normalHourlyWage = 1226;
+    int initialRecursiveWage = 100;
+    int inputHours = 0;
+
+    printf ("シミュレーションする時間を入力してください: ");
+    scanf_s ("%d", &inputHours);
+
+    printf ("\n時間 | 一般賃金累計 | 再帰賃金累計 | 判定\n");
+    printf ("------------------------------------------\n");
+
+    for (int i = 1; i <= inputHours; i++) {
+        int normalTotal = normalHourlyWage * i;
+        int recursiveTotal = CalculateTotalRecursivePay (initialRecursiveWage, i);
+
+        const char *result = (recursiveTotal > normalTotal) ? "★再帰の勝ち" : "一般の勝ち";
+
+        printf ("%2dh  | %10d円 | %10d円 | %s\n", i, normalTotal, recursiveTotal, result);
+    }
+
+    return 0;
 }
